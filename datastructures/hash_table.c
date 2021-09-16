@@ -14,7 +14,7 @@ typedef struct entry_t {
 
 typedef struct char_entry{
     char *key; 
-    int *value; 
+    int value; 
     struct char_entry *next; 
 } char_entry;
 
@@ -51,9 +51,9 @@ char_entry *hmap_pair(const char *key, int value){
     // allocating the entry 
     char_entry *entry = malloc(sizeof(char_entry) * 1);
     entry->key = malloc(strlen(key)+1);
-    entry->value = malloc(sizeof(value));
+    // entry->value = malloc(sizeof(value));
     strcpy(entry->key, key);
-    entry->value = &value;
+    entry->value = value;
     entry->next = NULL; 
     return entry;
 }
@@ -100,6 +100,16 @@ ht_t *ht_create(void) {
 
     return hashtable;
 }
+void hmap_set_update(hmap *hashtable, const char* key){
+    unsigned int slot = hash_char(key);
+    char_entry *entry = hashtable->entries[slot];
+    if(entry == NULL){
+        hashtable->entries[slot] = hmap_pair(key, 1);
+        return;
+    }
+    entry->value += 1;
+    return;
+}
 void hmap_set(hmap *hashtable, const char *key, int value){
     unsigned int slot = hash_char(key);
 
@@ -108,6 +118,7 @@ void hmap_set(hmap *hashtable, const char *key, int value){
 
     // If no entry, we insert in that slot 
     if (entry == NULL){
+        // printf("%d \n",value);
         hashtable->entries[slot] = hmap_pair(key,value);
         return;
     }
@@ -147,6 +158,14 @@ void ht_set(ht_t *hashtable, const char *key, const char *value) {
     // end of chain reached without a match, add new
     prev->next = ht_pair(key, value);
 }
+int hmap_get(hmap *hashtable, const char *key) {
+    unsigned int slot = hash(key);
+    char_entry *entry = hashtable->entries[slot];
+    if(entry == NULL){
+        return -1; 
+    }
+    return entry->value;
+}
 
 char *ht_get(ht_t *hashtable, const char *key) {
     unsigned int slot = hash(key);
@@ -174,6 +193,17 @@ char *ht_get(ht_t *hashtable, const char *key) {
     return NULL;
 }
 
+void hmap_del(hmap *hashtable, const char *key){
+    unsigned int slot = hash_char(key);
+    char_entry *entry = hashtable->entries[slot];
+    if(entry == NULL){
+        return; 
+    }
+    hashtable->entries[slot] = NULL;
+    // free(entry->value);
+    free(entry->key);
+    free(entry);
+}
 void ht_del(ht_t *hashtable, const char *key) {
     unsigned int bucket = hash(key);
 
@@ -228,6 +258,17 @@ void ht_del(ht_t *hashtable, const char *key) {
     }
 }
 
+void hmap_dump(hmap *hashtable){
+    for(int i=0; i<ASCI_SIZE;++i){
+        char_entry *entry = hashtable->entries[i];
+        if (entry == NULL){
+            continue;
+        }
+        printf("[%d]:[%s]=%d \n",i,entry->key,entry->value);
+    } 
+}
+
+
 void ht_dump(ht_t *hashtable) { // This is quite costly 
     for (int i = 0; i < TABLE_SIZE; ++i) {
         entry_t *entry = hashtable->entries[i];
@@ -251,9 +292,34 @@ void ht_dump(ht_t *hashtable) { // This is quite costly
         printf("\n");
     }
 }
+int check_if_permutation_palindrom(hmap *hashtable, int size){
+    int flag = 0;
+    for(int i =0; i<ASCI_SIZE; i++){
+        char_entry* entry = hashtable->entries[i];
+        if(entry == NULL){
+            continue;
+        }
+        if (size%2 != 0){
+            if (entry->value%2 !=0){
+                if(flag==0){
+                    flag = 1;
+                }
+                else{
+                    return -1;
+                }
+            }
+        }
+        else{
+            if(entry->value%2 == 0){
+                return -1;
+            }
+        }
+    }
+    return 0;
+}
 
 void main() {
-    ht_t *ht = ht_create();
+    /* ht_t *ht = ht_create();
 
     ht_set(ht, "name1", "em");
     ht_set(ht, "name2", "russian");
@@ -261,14 +327,27 @@ void main() {
     ht_set(ht, "name4", "doge");
     ht_set(ht, "name5", "pyro");
     ht_set(ht, "name6", "joost");
-    ht_set(ht, "name7", "kalix");
-    char *faisal = ht_get(ht, "name2");
-    printf("%d \n",hash_char("a"));
-
+    ht_set(ht, "name7", "kalix");*/
+    // char *faisal = ht_get(ht, "name2");
     hmap *hm = hmap_create();
-    hmap_set(hm, "f",1);
-    hmap_set(hm, "a",1);
-    hmap_set(hm, "e",1);
-
-    ht_dump(ht);
+    /*hmap_set(hm, "f",6);
+    hmap_set(hm, "a",2);
+    hmap_set(hm, "e",1);*/
+    printf("%d \n",hmap_get(hm,"f"));
+    hmap_dump(hm);
+    char* c = "taco catod";
+    // int len = strlen(c);
+    int len = 0;
+    for (int i = 0; c[i] != 0; i++) {
+        if(c[i] == ' '){
+            continue;
+        }
+        char key = c[i];
+        len++;
+        hmap_set_update(hm,&key);
+    }
+    // hmap_set(hm,"k",10);
+    printf("%d \n",check_if_permutation_palindrom(hm,len));
+    hmap_dump(hm);
+    // ht_dump(ht);
 }
