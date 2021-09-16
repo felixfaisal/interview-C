@@ -338,16 +338,17 @@ void main() {
     char* c = "taco catod";
     // int len = strlen(c);
     int len = 0;
-    for (int i = 0; c[i] != 0; i++) {
+    for (int i = 0; c[i] != 0; i++) { // O(N)
         if(c[i] == ' '){
             continue;
         }
         char key = c[i];
         len++;
-        hmap_set_update(hm,&key);
+        hmap_set_update(hm,&key); // O(1)
     }
     // hmap_set(hm,"k",10);
-    printf("%d \n",check_if_permutation_palindrom(hm,len));
+    printf("%d \n",check_if_permutation_palindrom(hm,len)); // O(128)
     hmap_dump(hm);
     // ht_dump(ht);
 }
+// Time Complexity = O(N+1+128) = O(N)
