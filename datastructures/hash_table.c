@@ -4,6 +4,7 @@
 #include <string.h>
 
 #define TABLE_SIZE 20000
+#define ASCI_SIZE 128
 
 typedef struct entry_t {
     char *key;
@@ -11,9 +12,24 @@ typedef struct entry_t {
     struct entry_t *next;
 } entry_t;
 
+typedef struct char_entry{
+    char *key; 
+    int *value; 
+    struct char_entry *next; 
+} char_entry;
+
+typedef struct {
+    char_entry **entries; // pointer to a pointer to char_entry
+} hmap;
+
 typedef struct {
     entry_t **entries;
 } ht_t;
+
+unsigned int hash_char(const char* key){
+    unsigned int number = *key;
+    return number;
+}
 
 unsigned int hash(const char *key) {
     unsigned long int value = 0;
@@ -29,6 +45,17 @@ unsigned int hash(const char *key) {
     value = value % TABLE_SIZE;
 
     return value;
+}
+
+char_entry *hmap_pair(const char *key, int value){
+    // allocating the entry 
+    char_entry *entry = malloc(sizeof(char_entry) * 1);
+    entry->key = malloc(strlen(key)+1);
+    entry->value = malloc(sizeof(value));
+    strcpy(entry->key, key);
+    entry->value = &value;
+    entry->next = NULL; 
+    return entry;
 }
 
 entry_t *ht_pair(const char *key, const char *value) {
@@ -47,6 +74,17 @@ entry_t *ht_pair(const char *key, const char *value) {
     return entry;
 }
 
+hmap *hmap_create(void){
+    hmap *hashtable = malloc(sizeof(hmap) * 1);
+    hashtable->entries = malloc(sizeof(entry_t*)*ASCI_SIZE);
+
+    int i = 0; 
+    for(; i<ASCI_SIZE; ++i){
+        hashtable->entries[i] = NULL;
+    }
+    return hashtable;
+}
+
 ht_t *ht_create(void) {
     // allocate table
     ht_t *hashtable = malloc(sizeof(ht_t) * 1);
@@ -61,6 +99,18 @@ ht_t *ht_create(void) {
     }
 
     return hashtable;
+}
+void hmap_set(hmap *hashtable, const char *key, int value){
+    unsigned int slot = hash_char(key);
+
+    // See if this slot exists 
+    char_entry *entry = hashtable->entries[slot];
+
+    // If no entry, we insert in that slot 
+    if (entry == NULL){
+        hashtable->entries[slot] = hmap_pair(key,value);
+        return;
+    }
 }
 
 void ht_set(ht_t *hashtable, const char *key, const char *value) {
@@ -213,7 +263,12 @@ void main() {
     ht_set(ht, "name6", "joost");
     ht_set(ht, "name7", "kalix");
     char *faisal = ht_get(ht, "name2");
-    printf("%s \n",faisal);
+    printf("%d \n",hash_char("a"));
+
+    hmap *hm = hmap_create();
+    hmap_set(hm, "f",1);
+    hmap_set(hm, "a",1);
+    hmap_set(hm, "e",1);
 
     ht_dump(ht);
 }
