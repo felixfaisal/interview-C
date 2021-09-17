@@ -196,6 +196,51 @@ void remove_dups(){
         cur = cur->next;
     }
 }
+int size_of_linked_list(node_t* head){
+    int count = 0;
+    node_t* cur = head;
+    while(cur!=NULL){
+        cur = cur->next;
+        count++;
+    }
+    return count;
+}
+int kth_last(int k){
+    if(k==0)k=k+1;
+    int len = size_of_linked_list(head);
+    int pos = len-k;
+    node_t* cur = head;
+    node_t* prev = NULL;
+    int idx = 0;
+    while(cur!=NULL && idx != pos){
+        idx++;
+        prev = cur;
+        cur = cur->next;
+
+    }
+    if(cur!=NULL)return cur->data;
+    return -1;
+}
+void delete_middle_nod(){
+    int len = size_of_linked_list(head);
+    int pos;
+    if(len%2!=0)pos = (len+1)/2;
+    else pos = len/2;
+
+    int idx = 0;
+    node_t* cur = head;
+    node_t* prev = NULL;
+    while(cur!=NULL && idx != pos){
+        idx++;
+        prev = cur;
+        cur = cur->next;
+    }
+    // We can always assume it's going to be in middle
+    prev->next = cur->next;
+    free(cur);
+}
+
+
 void main(){
     insert_first(1);
     insert_last(3);
@@ -206,8 +251,12 @@ void main(){
     insert_last(10);
     insert_last(10);
     insert_last(9);
+    insert_last(20);
     dump();
-    remove_dups();
+    // remove_dups();
+    // printf("%d\n",kth_last(0));
+    delete_middle_nod();
+    delete_middle_nod();
     dump();
 }
 /* void main(){
