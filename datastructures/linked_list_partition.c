@@ -70,17 +70,35 @@ node_t* partition(node_t* head,int key){
     // `dump(new_list);
     return new_list;
 }
+node_t* sum_of(node_t* list1, node_t* list2){
+    int carry = 0;
+    node_t* sumlist = create();
+    node_t* cur1 = list1;
+    node_t* cur2 = list2;
+    while(cur1 != NULL && cur2 != NULL){
+        int sum = cur1->data + cur2->data + carry;
+        carry = sum/10;
+        sum = sum%10;
+        sumlist = insert_at_pos(sumlist,-1,sum);
+        cur1 = cur1->next;
+        cur2 = cur2->next;
+    }
+    return sumlist;
+}
 
 void main(){
-    node_t* list = create();
-    list = insert_at_pos(list,0,1);
-    list = insert_at_pos(list,0,7);
-    list = insert_at_pos(list,0,8);
-    list = insert_at_pos(list,0,3);
-    list = insert_at_pos(list,-1,4);
-    list = insert_at_pos(list,0,5);
-    dump(list);
-    list = partition(list, 5);
-    dump(list);
-
+    node_t* list1 = create();
+    node_t* list2 = create();
+    list1 = insert_at_pos(list1,0,1);
+    list1 = insert_at_pos(list1,0,7);
+    list1 = insert_at_pos(list1,0,8);
+    list2 = insert_at_pos(list2,0,3);
+    list2 = insert_at_pos(list2,-1,4);
+    list2= insert_at_pos(list2,0,5);
+    dump(list1);
+    //list = partition(list, 5);
+    dump(list2);
+    // node_t* sum = sum_of(list1,list2);
+    dump(sum_of(list1,list2));
+    // 178 + 435 = 613
 }
