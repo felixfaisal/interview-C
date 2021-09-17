@@ -239,7 +239,28 @@ void delete_middle_nod(){
     prev->next = cur->next;
     free(cur);
 }
-
+/* void partition(int key){
+    node_t* cur = head;
+    node_t* prev = NULL;
+    while(cur!=NULL){
+        if(cur->data<key){
+            // We insert first
+            int data = cur->data; // We want to take this because we are goingg to delete that node
+            // If it's head
+            if(prev == NULL){
+                head = cur->next;
+                node_t* temp = cur;
+                insert_first(data);
+                cur = cur->next;
+                continue;
+            }
+            if(cur->next == NULL){
+                prev->next = NULL;
+            }
+        }
+    }
+}*/
+// We need a new program for this with List references 
 
 void main(){
     insert_first(1);
