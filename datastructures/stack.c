@@ -49,14 +49,30 @@ node_t* pop(node_t* head){
     free(temp);
     return head;
 }
+void min_stack(node_t* head){
+    int min = head->data;
+    node_t* temp = head;
+    temp = pop(temp);
+    while(temp!=NULL){
+        if(peek(temp)<min){
+            min = temp->data;
+        }
+        temp = pop(temp);
+    }
+    printf("%d\n",min);
+}
 
 void main(){
     node_t* stack = create();
-    stack = push(stack, 1);
+    // stack = push(stack, 1);
     stack = push(stack, 2);
     stack = push(stack, 3);
+    stack = push(stack, 5);
+    stack = push(stack, 10);
     dump(stack);
     // peek(stack);
     stack = pop(stack);
     dump(stack);
+    min_stack(stack);
+    // dump(stack);
 }
