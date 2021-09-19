@@ -3,17 +3,22 @@
 #include <unordered_map>
 using namespace std;
 
-int fib(int n, unordered_map<int,int>* umap){
-    if(umap.find(n) != umap.end()){
-        return umap[n];
+unsigned int fib(int n, unordered_map<int,unsigned int>* umap){
+    //unordered_map<int,int> map = umap;
+    if((*umap).find(n) != (*umap).end()){
+        // cout<<"Found in map +"<<n<<":"<<(*umap)[n]<<endl;
+        return (*umap)[n];
     }
     if(n<=2) return 1;
-    umap[n] = fib(n-1, umap) + fib(n-2,umap);
-    return umap[n];
+    (*umap).insert(make_pair(n,fib(n-1, umap) + fib(n-2,umap)));
+    // map[n] = ;
+    return (*umap)[n];
 }
 int main()
 {
-    unordered_map<int, int> umap;
+    unordered_map<int, unsigned int> map;
+    unordered_map<int, unsigned int>* umap = &map;
 	cout<<"Hello World\n";
-    cout<<fib(10, &umap);
+    cout<<fib(50, umap);
+   
 }
