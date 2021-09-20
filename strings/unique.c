@@ -10,7 +10,9 @@ START
                 int[int(x)] = 1 
         return 0
 END 
+Time Complexity: 0(N)
 */ 
+// FIXME: Unable to iterate through the string properly 
 #include<stdio.h>
 int isUnique(char str_name[]){
     int alphabet_array[128] = {0};
