@@ -62,7 +62,7 @@ void min_stack(node_t* head){
     printf("%d\n",min);
 }
 
-void main(){
+int main(){
     node_t* stack = create();
     // stack = push(stack, 1);
     stack = push(stack, 2);
@@ -75,4 +75,5 @@ void main(){
     dump(stack);
     min_stack(stack);
     // dump(stack);
+    return 0;
 }
