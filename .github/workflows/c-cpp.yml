@@ -22,7 +22,7 @@ jobs:
     - name: linked_list
       run: make datastructures/linked_list && ./datastructures/linked_list
       
-    - name: linked_list
+    - name: linked_list_partition
       run: make datastructures/linked_list_partition && ./datastructures/linked_list_partition
       
     - name: map
