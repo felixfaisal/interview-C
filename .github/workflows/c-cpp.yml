@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: Data Structures
 
 on:
   push:
@@ -15,3 +15,19 @@ jobs:
     - uses: actions/checkout@v2
     - name: hash_table
       run: make datastructures/hash_table && ./datastructures/hash_table
+      
+    - name: hash_table_ascii
+      run: make datastructures/hash_table_ascii && ./datastructures/hash_table_ascii
+    
+    - name: linked_list
+      run: make datastructures/linked_list && ./datastructures/linked_list
+      
+    - name: linked_list
+      run: make datastructures/linked_list_partition && ./datastructures/linked_list_partition
+      
+    - name: map
+      run: make datastructures/map && ./datastructures/map
+      
+    - name: stack
+      run: make datastructures/stack && ./datastructures/stack
+    
