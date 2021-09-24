@@ -161,7 +161,9 @@ int main()
 ```
 
 ## Topological Sort
-
+- Directed Acyclic Graph 
+- Linear ordering of vertices 
+- Every directed edge uv, for vertex u to v, u comes before v
 ```C++
 // A C++ program to print topological sorting of a DAG
 #include <iostream>
