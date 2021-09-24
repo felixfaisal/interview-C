@@ -19,9 +19,6 @@ jobs:
     - name: hash_table_ascii
       run: make datastructures/hash_table_ascii && ./datastructures/hash_table_ascii
       
-    - name: linked_list_partition
-      run: make datastructures/linked_list_partition && ./datastructures/linked_list_partition
-      
     - name: map
       run: make datastructures/map && ./datastructures/map
       
