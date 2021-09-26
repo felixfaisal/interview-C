@@ -69,4 +69,12 @@ What else can DFS do?
 - Every directed edge uv, for vertex u to v, u comes before v
 
 
-## Single Source Shortest Path Algorithm
+## Djikstra Algorithm 
+- Uses Greedy Technique, i.e. It chooses the most optimum choice at every iteration 
+- It will not work for negative weighted graph 
+- It can be optimized using priority queue 
+
+## Bellman Ford Algorithm
+- Single Source Shortest path 
+- It works even in negative weighted graph 
+- It will not work in the presence of negative cycles 
