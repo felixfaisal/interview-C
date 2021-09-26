@@ -16,3 +16,9 @@ jobs:
     - name: djikstra
       run: make graphs/djiktra && ./graphs/djiktra
     
+    - name: floyd_warshall
+      run: make graphs/fwarshall && ./graphs/fwarshall
+    
+    - name: bellman_ford
+      run: make graphs/bford && ./graphs/bford
+    
