@@ -11,66 +11,53 @@ Determine the minimum cost to provide library access to all citizens of HackerLa
 #include<bits/stdc++.h>
 using namespace std;
 enum find_type{path, library};
-void create_path_and_iterate(int s, find_type e, int cities[6][2], int size, bool* visited, int* count){
+
+void create_path_and_iterate(int s,int n, int c_lib, int c_road, vector<vector<int>> cities, bool* visited, long* count, find_type e){
     if(e==0){
-        cout<<"Creating path"<<endl;
+        //*count = *count + 1;
+        // cout<<"Creating edge"<<endl;
         visited[s-1] = true;
-        for(int i=0; i<size; i++){
+        for(int i=0; i<n; i++){
             if(cities[i][0] == s){
                 int next = cities[i][1];
-                *count = *count+5;
+                *count = *count+1;
+                cout<<*count<<endl;
                 if(!visited[next-1]){
+                    // cout<<"Correct batch"<<endl;
+                     //*count = *count+c_road;
                     //visited[next-1] = true;
-                    create_path_and_iterate(cities[i][1],path,cities,size, visited, count);
+                    create_path_and_iterate(cities[i][1],n,c_lib,c_road,cities,visited,count, path);
+                    //continue;
                 }
+                continue;
                 
+            }
+            else if(cities[i][1] == s){
+                
+                int next = cities[i][0];
+                if(!visited[next-1]){
+                    //cout<<"Bad Batch"<<endl;
+                    //visited[next-1] = true;
+                    *count = *count+c_road;
+                    create_path_and_iterate(next,n,c_lib,c_road,cities,visited,count, path);
+                }   
             }
         }
     }
-    if(e==1){
-        for(int i=0; i<size; i++){
+    else{
+        for(int i=0; i<n; i++){
             if(cities[i][0] == s){
-                cout<<"Creating library"<<endl;
-                *count = *count+2;
+                cout<<"Creating libraries"<<endl;
+                *count = *count+c_lib;
+                cout<<*count<<endl;
                 visited[s-1]=true;
-                create_path_and_iterate(cities[i][1],path,cities,size, visited, count);
+                // create_path_and_iterate(cities[i][1],path,cities,size, visited, count);
+                create_path_and_iterate(cities[i][1],n,c_lib,c_road,cities,visited,count, path);
                 break;
             }
         }
     }
 }
-
-int main(){
-    int q = 2; 
-    int n = 3; 
-    int size = 6;
-    int c_lib = 2;
-    int c_road = 5;
-    int cities[6][2] = {{1,3},{3,4},{2,4},{1,2},{2,3},{5,6}};
-    bool* visited = new bool[size];
-    for(int i=0;i<size;i++){
-        visited[i] = false;    
-    }
-    int* count = new int;
-    *count = 0;
-    create_path_and_iterate(cities[0][0],library,cities, size,visited,count);
-    // We will check for any unvisited nodes
-    for(int i=0;i<size;i++){
-        // cout<<visited[i]<<endl;
-        if(visited[i] == false){
-            create_path_and_iterate(i,library,cities,size,visited,count);
-        }
-    }
-    //create_path_and_iterate(6,path);
-    int create_lib = size*c_lib; 
-    cout<<"Total count is "<<*count<<endl;
-    cout<<"Cost of library is "<<create_lib<<endl;
-
-    delete count;
-    delete [] visited;
-    
-}
-
 long roadsAndLibraries(int n, int c_lib, int c_road, vector<vector<int>> cities) {
     bool *visited = new bool[n];
     for(int i=0;i<n;i++){
@@ -78,13 +65,33 @@ long roadsAndLibraries(int n, int c_lib, int c_road, vector<vector<int>> cities)
     }
     long* count = new long;
     *count = 0;
-    //create_path_and_iterate(cities[0][0],library,cities, size,visited,count);
+    create_path_and_iterate(cities[0][0],n,c_lib,c_road,cities,visited,count, library);
+    cout<<*count<<endl;
     for(int i=0;i<n;i++){
+        //cout<<visited[i]<<endl;
         if(visited[i] == false){
-            //create_path_and_iterate(i,library,cities,size,visited,count);
+            create_path_and_iterate(i+1,n,c_lib,c_road,cities,visited,count, library);
         }
     }
+    delete[] visited;
     long size_of_lib = n*c_lib;
     if(*count<size_of_lib) return *count;
     else return size_of_lib;
 }
+
+
+int main(){
+    int n = 3;
+    int c_lib = 2;
+    int c_road = 1;
+    vector<vector<int>> vect
+    {
+        {1,2},
+        {3,1},
+        {2,3},
+    };
+    long cost = roadsAndLibraries(n,c_lib,c_road,vect);
+    cout<<cost<<endl;
+}
+
+
