@@ -3,6 +3,8 @@
 #include <unordered_map>
 using namespace std;
 
+int fibs[102][1000];
+
 unsigned int fib(int n, unordered_map<int,unsigned int>* umap){
     //unordered_map<int,int> map = umap;
     if((*umap).find(n) != (*umap).end()){
