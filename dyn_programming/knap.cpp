@@ -19,6 +19,27 @@ int knapsack(int *wt, int *vl, int W, int n){
         //return k;
     }
 }
+int knapsack_topdown(int *wt, int *vl, int W, int n){
+    int t[n][W];
+    for(int i=0; i<n;i++){
+        for(int j=0;j<W;j++){
+            if(i==0 || j==0){
+                t[i][j] = 0;
+            }
+        }
+    }
+    for(int i=1; i<n; i++){
+        for(int j=1; j<W; j++){
+            if(wt[i-1]<W){
+                t[i][j] = max(vl[i-1]+t[i-1][j-wt[i-1]], t[i-1][j]);
+            }
+            else{
+                t[i][j] = t[i-1][j];
+            }
+        }
+    }
+    return t[n-1][W-1];
+}
 //Driver Code
 int main(){
     int W = 7; 
@@ -26,6 +47,7 @@ int main(){
     int wt[] = { 1, 3, 4, 5 };
     int n = sizeof(vl) / sizeof(vl[0]);
     memset(kmap, -1, sizeof(kmap));
-    cout<<knapsack(wt,vl,W,n)<<endl;
+    cout<<knapsack_topdown(wt,vl,W,n)<<endl;
+    
     return 0;
 }
