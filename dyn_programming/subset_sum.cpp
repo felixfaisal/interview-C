@@ -48,12 +48,27 @@ bool subset_topdown(int wt[], int sum, int n){
     }
     return t[n][sum];
 }
+bool equal_partition(int arr[], int n){
+    int sum = 0;
+    for(int i=0; i<n;i++){
+        sum = sum+arr[i];
+    }
+    if(sum%2!=0){
+        return false;
+    }
+    else{
+        return subset(arr,sum/2,n);
+    }
+}
 int main(){
     int sum = 10;
     int wt[] = {5,3,2,6};
     memset(arr,-1,sizeof(arr));
     int n = sizeof(wt)/sizeof(wt[0]);
+    int arr[] = {1,5,11,5,4};
+    int n_new = sizeof(arr)/sizeof(arr[0]);
     cout<<subset(wt,sum,n)<<endl;
     cout<<subset_topdown(wt,sum,n)<<endl;
+    cout<<equal_partition(arr,n_new)<<endl;
     return 0;
 }
