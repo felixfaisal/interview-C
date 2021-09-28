@@ -1,0 +1,18 @@
+name: Dynamic Programming
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: knapsack
+      run: make dyn_programming/knap && ./dyn_programming/knap
+    
