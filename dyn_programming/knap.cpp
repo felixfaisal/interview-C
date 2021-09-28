@@ -43,7 +43,7 @@ int knapsack_topdown(int *wt, int *vl, int W, int n){
 //Driver Code
 int main(){
     int W = 7; 
-    int vl[] = { 1, 4, 5, 7 };
+    int vl[] = { 1, 1, 1, 1 };
     int wt[] = { 1, 3, 4, 5 };
     int n = sizeof(vl) / sizeof(vl[0]);
     memset(kmap, -1, sizeof(kmap));
