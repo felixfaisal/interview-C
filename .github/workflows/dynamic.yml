@@ -15,4 +15,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: knapsack
       run: make dyn_programming/knap && ./dyn_programming/knap
+    - name: subset_sum
+      run: make dyn_programming/subset_sum && ./dyn_programming/subset_sum
     
