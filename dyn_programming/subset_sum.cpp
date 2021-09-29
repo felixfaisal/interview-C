@@ -67,7 +67,6 @@ int main(){
     int n = sizeof(wt)/sizeof(wt[0]);
     int arr[] = {1,5,11,5,4};
     int n_new = sizeof(arr)/sizeof(arr[0]);
-    cout<<subset(wt,sum,n)<<endl;
     cout<<subset_topdown(wt,sum,n)<<endl;
     cout<<equal_partition(arr,n_new)<<endl;
     return 0;
