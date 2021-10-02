@@ -20,7 +20,7 @@ int subset_sum(int arr[], int sum, int n){
 }
 
 int main(){
-    int arr[] = {2,3,5,6,8,10};
+    int arr[] = {2,3,5,6,8,10,5};
     int sum = 10;
     int n = sizeof(arr)/sizeof(arr[0]);
     cout<<subset_sum(arr,sum,n)<<endl;

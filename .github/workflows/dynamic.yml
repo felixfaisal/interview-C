@@ -17,4 +17,6 @@ jobs:
       run: make dyn_programming/knap && ./dyn_programming/knap
     - name: subset_sum
       run: make dyn_programming/subset_sum && ./dyn_programming/subset_sum
+    - name: fib
+      run: make dyn_programming/fib && ./dyn_programming/fib
     
